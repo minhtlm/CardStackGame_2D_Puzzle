@@ -1,0 +1,9 @@
+.vscode/
+Assembly-CSharp-firstpass.csproj
+Assembly-CSharp.csproj
+Library/
+Logs/
+Temp/
+UIElementsSchema/
+UserSettings/
+CardStack.sln
