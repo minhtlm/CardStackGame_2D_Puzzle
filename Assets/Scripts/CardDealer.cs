@@ -19,11 +19,10 @@ public class CardDealer : MonoBehaviour
 
     public void StartDealing()
     {
-        if (isDealing || SlotManager.Instance.HasSelectedCards())
-        {
-            Debug.LogWarning("Đang deal hoặc có lá bài được chọn.");
-            return;
-        }
+        if (isDealing) return;
+        if (SlotManager.Instance.HasSelectedCards()) return;
+
+        isDealing = true;
 
         StartCoroutine(DealAllSlots());
     }
@@ -32,8 +31,6 @@ public class CardDealer : MonoBehaviour
     {
         AudioManager.Instance.PlayDealSound(); // Phát âm thanh deal
         yield return new WaitForSeconds(0.3f); // Đợi một chút trước khi bắt đầu deal
-
-        isDealing = true;
 
         for (int i = 0; i < normalSlotCount; i++)
         {
