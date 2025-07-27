@@ -14,18 +14,37 @@ public class CardDealer : MonoBehaviour
 
     [SerializeField] private GameObject[] cardPrefabs;
 
+    private bool isDealing = false;
+    public bool IsDealing => isDealing;
+
     public void StartDealing()
     {
+        if (isDealing || SlotManager.Instance.HasSelectedCards())
+        {
+            Debug.LogWarning("Đang deal hoặc có lá bài được chọn.");
+            return;
+        }
+
         StartCoroutine(DealAllSlots());
     }
 
     private IEnumerator DealAllSlots()
     {
+        AudioManager.Instance.PlayDealSound(); // Phát âm thanh deal
+        yield return new WaitForSeconds(0.3f); // Đợi một chút trước khi bắt đầu deal
+
+        isDealing = true;
+
         for (int i = 0; i < normalSlotCount; i++)
         {
-            SlotConfig config = SlotManager.Instance.GenerateSlotConfig();
-            yield return StartCoroutine(DealSlot(i, config));
+            if (SlotManager.Instance.unlockedSlots[i])
+            {
+                SlotConfig config = SlotManager.Instance.GenerateSlotConfig();
+                yield return StartCoroutine(DealSlot(i, config));
+            }
         }
+
+        isDealing = false;
     }
 
     private IEnumerator DealSlot(int slotIndex, SlotConfig config)
@@ -52,6 +71,8 @@ public class CardDealer : MonoBehaviour
                 Vector3 targetPosition = currentSlot.position + Vector3.up * (currentCardCount * stackOffset);
 
                 currentCardCount++; // Tăng số lượng lá bài trong slot
+
+                AudioManager.Instance.PlayCardMoveSound(); // Phát âm thanh di chuyển lá bài
 
                 card.transform.DOMove(targetPosition, dealDuration)
                     .SetEase(Ease.OutQuart)
