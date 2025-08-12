@@ -12,7 +12,7 @@ Card Stack is a logic-based puzzle game where the goal is to group cards of the 
 ### 🧩 Game Rules:
 - Tap a slot to select the top group of same-colored cards.
 - Tap another slot to move them (only if the move is valid).
-- When you move a group of**10 or more cards of the same color** into one of the three slots at the bottom , it disappears, and you earn points.
+- When you move a group of **10 or more cards of the same color** into one of the three slots at the bottom , it disappears, and you earn points.
 
 ---
 
